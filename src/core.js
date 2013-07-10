@@ -847,14 +847,13 @@ $.extend($.validator, {
 
 			// support for <input required> in both html5 and older browsers
 			if ( method === "required" ) {
-				value = $element.get(0).getAttribute(method);
-				// Some browsers return an empty string for the required attribute
-				// and non-HTML5 browsers might have required="" markup
-				if ( value === "" && !navigator.userAgent.match(/MSIE 8\./) ) {
+				value = $element.get(0).attributes.getNamedItem(method); // get the attribute as an object or null
+				if ( value !== null ) {
 					value = true;
 				}
-				// force non-HTML5 browsers to return bool
-				value = !!value;
+				else {
+					value = false;
+				}
 			} else {
 				value = $element.attr(method);
 			}
